@@ -13,7 +13,7 @@ $.support.cors = true;
 var first = true;
 
 function init() {
-	if (!token || first)
+	if (!token || first) {
 		first = false;
 		if (token) {
 			$('#tokenInput').val(token);
