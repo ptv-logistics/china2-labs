@@ -10,8 +10,14 @@ var routingControl;
 // Required for IE9
 $.support.cors = true;
 
+var first = true;
+
 function init() {
-	if (!token) {
+	if (!token || first)
+		first = false;
+		if (token) {
+			$('#tokenInput').val(token);
+		}
 		$('#Auth').dialog({ minWidth: 600, minHeight: 400 });
 	} else {
 		initMap();
