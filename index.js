@@ -1,11 +1,7 @@
 var routingProfile = 'car.xml';
-var enableRestrictionZones = false;
-var enableTruckAttributes = false;
-var enableTrafficIncidents = false;
-var enableSpeedPatterns = false;
-
 var baseLayers;
 var routingControl;
+var cluster = '-test';
 
 // Required for IE9
 $.support.cors = true;
@@ -27,7 +23,7 @@ function init() {
 function handleAuth(elmnt,clr) {
     token = document.getElementById("tokenInput").value;
 	
-	var url = 'https://xserver2-china.cloud.ptvgroup.com/services/rest/XMap/tile/0/0/0?xtok=' + token;
+	var url = 'https://xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rest/XMap/tile/0/0/0?xtok=' + token;
 	
 	document.getElementById("error").innerHTML = "Loading...";
 	
@@ -87,7 +83,7 @@ function initMap() {
 
 	// returns a layer group for xmap back- and foreground layers
 	var getXMapBaseLayers = function (style) {
-		var bg = L.tileLayer('https://s0{s}-xserver2-china.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
+		return L.tileLayer('https://s0{s}-xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
 			'&xtok={token}', {
 				profile: style,
 				token: token,
@@ -95,28 +91,6 @@ function initMap() {
 				maxZoom: 22,
 				subdomains: '1234'
 			});
-
-		var fg = L.tileLayer.xserver('https://s0{s}-xserver2-china.cloud.ptvgroup.com/services/rest/XMap/experimental/tile/{z}/{x}/{y}?storedProfile={profile}&layers=labels,{vl1}{vl2}{vl3}{vl4}&contentType=JSON&xtok={token}', {
-				profile: style,
-				token: token,
-				attribution: '<a target="_blank" href="http://www.ptvgroup.com">PTV</a>, HERE',
-				maxZoom: 22,
-				subdomains: '1234',
-				timeConsideration: 'SNAPSHOT',
-				referenceTime: '2018-01-09T15%3A00%3A00%2B01%3A00',
-				timeSpan: 172800,
-				showOnlyRelevantByTime: 'false',
-				userLanguage: 'de',
-				pane: 'tileOverlayPane',
-				zIndex: 1,
-				isVirtualHost: true,
-				vl1: '',
-				vl2: '',
-				vl3: '',
-				vl4: ''
-			});
-
-		return L.layerGroup([bg, fg]);
 	}
 
 	var initializeRoutingControl = function () {
@@ -133,7 +107,7 @@ function initMap() {
 					});
 				},
 				geocoder: L.Control.Geocoder.ptv({
-					serviceUrl: 'https://xserver2-china.cloud.ptvgroup.com/services/rest/XLocate/locations/',
+					serviceUrl: 'https://xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rest/XLocate/locations/',
 					token: token
 				}),
 				reverseWaypoints: true
@@ -161,7 +135,7 @@ function initMap() {
 				]
 			},
 			router: L.Routing.ptv({
-				serviceUrl: 'https://xserver2-china.cloud.ptvgroup.com/services/rs/XRoute/',
+				serviceUrl: 'https://xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rs/XRoute/',
 				token: token,
 				supportsHeadings: true,
 				beforeSend: function (request) {
@@ -198,26 +172,7 @@ function initMap() {
 		'PTV silica': getXMapBaseLayers('silica').addTo(map)
 	};
 
-	var truckAttributesLayer = L.virtualLayer('PTV_TruckAttributes,', 'vl1');
-	var restrictionZonesLayer = L.virtualLayer('PTV_RestrictionZones,', 'vl2');
-	var trafficIncidentsLayer = L.virtualLayer('PTV_TrafficIncidents,', 'vl3');
-	var speedPatternsLayer = L.virtualLayer('PTV_SpeedPatterns,', 'vl4');
-
-	if (enableTruckAttributes)
-		map.addLayer(truckAttributesLayer);
-	if (enableTrafficIncidents)
-		map.addLayer(trafficIncidentsLayer);
-	if (enableRestrictionZones)
-		map.addLayer(restrictionZonesLayer);
-	if (enableSpeedPatterns)
-		map.addLayer(speedPatternsLayer);
-
-	L.control.layers(baseLayers, {
-		'Truck Attributes': truckAttributesLayer,
-		'Restriction Zones': restrictionZonesLayer,
-		'Traffic Incidents': trafficIncidentsLayer,
-		'Speed Patterns': speedPatternsLayer
-	}, {
+	L.control.layers(baseLayers, {}, {
 		position: 'bottomleft',
 		autoZIndex: false
 	}).addTo(map);
