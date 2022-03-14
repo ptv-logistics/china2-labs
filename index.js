@@ -23,7 +23,7 @@ function init() {
 function handleAuth(elmnt,clr) {
     token = document.getElementById("tokenInput").value;
 	
-	var url = 'https://xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rest/XMap/tile/0/0/0?xtok=' + token;
+	var url = 'https://xserver2-cn' + cluster + '.ptvgroup.cn/services/rest/XMap/tile/0/0/0?xtok=' + token;
 	
 	document.getElementById("error").innerHTML = "Loading...";
 	
@@ -83,7 +83,7 @@ function initMap() {
 
 	// returns a layer group for xmap back- and foreground layers
 	var getXMapBaseLayers = function (style) {
-		return L.tileLayer('https://s0{s}-xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
+		return L.tileLayer('https://xserver2-cn' + cluster + '.ptvgroup.cn/services/rest/XMap/tile/{z}/{x}/{y}?storedProfile={profile}' +
 			'&xtok={token}', {
 				profile: style,
 				token: token,
@@ -135,7 +135,7 @@ function initMap() {
 				]
 			},
 			router: L.Routing.ptv({
-				serviceUrl: 'https://xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rs/XRoute/',
+				serviceUrl: 'https://xserver2-cn' + cluster + '.ptvgroup.cn/services/rs/XRoute/',
 				token: token,
 				supportsHeadings: true,
 				beforeSend: function (request) {

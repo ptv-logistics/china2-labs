@@ -38,7 +38,10 @@
             text-align: left;
         }
 
-
+        div.leaflet-routing-geocoders input {
+            width: calc(100% - 6px); /* fixes wrong line-break in chrome */
+        }
+        
 div.controlPanel {
     font: 14px Arial,sans-serif;          
     padding: 10px;
