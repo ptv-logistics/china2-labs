@@ -107,7 +107,7 @@ function initMap() {
 					});
 				},
 				geocoder: L.Control.Geocoder.ptv({
-					serviceUrl: 'https://xserver2-china' + cluster + '.cloud.ptvgroup.com/services/rest/XLocate/locations/',
+					serviceUrl: 'https://xserver2-cn' + cluster + '.ptvgroup.cn/services/rest/XLocate/locations/',
 					token: token
 				}),
 				reverseWaypoints: true
